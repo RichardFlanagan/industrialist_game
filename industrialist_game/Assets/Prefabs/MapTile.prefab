@@ -21,6 +21,7 @@ GameObject:
   - 4: {fileID: 4000013469216496}
   - 114: {fileID: 114000011576280352}
   - 212: {fileID: 212000012551910764}
+  - 60: {fileID: 60000012661122334}
   m_Layer: 0
   m_Name: MapTile
   m_TagString: Untagged
@@ -41,6 +42,28 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!60 &60000012661122334
+PolygonCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012930102844}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_Offset: {x: 0, y: 0}
+  m_Points:
+    m_Paths:
+    - - {x: -0.049999997, y: 0.64}
+      - {x: -0.64, y: 0.35999998}
+      - {x: -0.64, y: -0.39}
+      - {x: -0.08, y: -0.64}
+      - {x: 0.14, y: -0.64}
+      - {x: 0.64, y: -0.34}
+      - {x: 0.64, y: 0.35}
+      - {x: 0.12, y: 0.64}
 --- !u!114 &114000011576280352
 MonoBehaviour:
   m_ObjectHideFlags: 1

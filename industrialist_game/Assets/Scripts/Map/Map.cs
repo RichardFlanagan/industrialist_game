@@ -82,8 +82,13 @@ public class Map : MonoBehaviour {
 	}
 
 
-	void findTile(Vector2 pos){
-		
+	public void findTile(Vector2 pos){
+		int index = (int) (pos.y / tileHeight) * 10 + (int) (pos.x / tileWidth);
+		tiles[index].GetComponent<MapTile>().click();
+
+		Vector3 pz = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+		pz.z = 0;
+		Debug.Log(pz);
 	}
 
 }
