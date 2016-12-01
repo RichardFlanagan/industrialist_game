@@ -8,16 +8,30 @@ public class Map : MonoBehaviour {
 	public int mapHeight = 96;
 	public GameObject[] tiles;
 	
-	private Texture2D terrainTexture;
-	private Texture2D forestTexture;
+	public Texture2D heightTexture;
+	public Texture2D climateTexture;
+	public Texture2D humidityTexture;
+	public Texture2D forestTexture;
 	
 	private float tileWidth;
 	private float tileHeight;
 
 	void Start () {
+		// Create a new array
 		tiles = new GameObject[mapWidth*mapHeight];
-		terrainTexture = new TextureCreator().generateTerrainTexture(this.transform);
-		forestTexture = new TextureCreator().generateForestTexture(this.transform);
+
+		// Generate the texture that will be used for the terrain height, climate, humidity and forest cover
+		// heightTexture = new TextureCreator().generateTerrainTexture(this.transform);
+		// climateTexture = new TextureCreator().generateForestTexture(this.transform);
+		// humidityTexture = new TextureCreator().generateForestTexture(this.transform);
+		// forestTexture = new TextureCreator().generateForestTexture(this.transform);
+
+        JSONLoader jsl = JSONLoader.fromJSON("Data/terrain_texture_parameters");
+		TerrainTextureDataObject heightTextureDescription = jsl.terrainTextureParameters[0];
+        TerrainTextureDataObject forestTextureDescription = jsl.terrainTextureParameters[1];
+        
+		heightTexture = new TextureCreator().generateTexture(this.transform, heightTextureDescription);
+		forestTexture = new TextureCreator().generateTexture(this.transform, forestTextureDescription);
 
 		tileWidth = tilePrefab.GetComponent<SpriteRenderer>().bounds.size.x;
 		tileHeight = tilePrefab.GetComponent<SpriteRenderer>().bounds.size.y;
@@ -44,10 +58,9 @@ public class Map : MonoBehaviour {
 		for(int i=0; i<mapHeight; i++){
 			for(int j=0; j<mapWidth; j++){
 				float xOffset = (i%2==0) ? 0.0f : (tileWidth * 0.5f);
-				Vector3 pos = new Vector3(
+				Vector2 pos = new Vector2(
 					(tileWidth * j) + xOffset - xStart, 
-					(tileHeight * 0.75f* i) - yStart, 
-					0
+					(tileHeight * 0.75f* i) - yStart
 				);
 
 				createTile(i, j, pos);
@@ -55,7 +68,7 @@ public class Map : MonoBehaviour {
 		}
 	}
 
-	void createTile(int i, int j, Vector3 pos){
+	void createTile(int i, int j, Vector2 pos){
 		// Tile
 		GameObject tile = (GameObject) Instantiate(tilePrefab, pos, Quaternion.identity);
 		tile.transform.parent = this.gameObject.transform;
@@ -63,7 +76,7 @@ public class Map : MonoBehaviour {
 		MapTile mapTile = tile.GetComponent<MapTile>();
 		mapTile.id = (i*mapWidth+j);
 
-		float terrainPixel = terrainTexture.GetPixel(i, j).r;
+		float terrainPixel = heightTexture.GetPixel(i, j).r;
 		float forestPixel = forestTexture.GetPixel(i, j).r;
 		MapTileTerrain terrain = new MapTileTerrain(terrainPixel, forestPixel);
 		mapTile.setTerrain(terrain);

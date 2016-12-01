@@ -1,4 +1,8 @@
-﻿using UnityEngine;
+﻿/**
+ *	Basically voodoo magic
+ *	http://catlikecoding.com/unity/tutorials/noise/
+ */
+using UnityEngine;
 
 public delegate float NoiseMethod (Vector3 point, float frequency);
 

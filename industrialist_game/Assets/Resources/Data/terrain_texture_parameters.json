@@ -1,0 +1,26 @@
+{
+    "terrainTextureParameters":[
+        {  
+            "name":"terrain height texture",
+            "type":"Value",
+            "resolution":256,
+            "frequency":6.0,
+            "octaves":6,
+            "lacunarity":2.0,
+            "persistence":0.75,
+            "dimensions":2,
+            "scale":1
+        },
+        {  
+            "name":"terrain forrestation texture",
+            "type":"Value",
+            "resolution":256,
+            "frequency":4.0,
+            "octaves":32,
+            "lacunarity":10.0,
+            "persistence":0.9,
+            "dimensions":2,
+            "scale":1
+        }
+    ]
+}

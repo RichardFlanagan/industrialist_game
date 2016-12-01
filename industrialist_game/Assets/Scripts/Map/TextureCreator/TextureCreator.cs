@@ -1,167 +1,90 @@
 ﻿using UnityEngine;
 
-// http://catlikecoding.com/unity/tutorials/noise/
 public class TextureCreator {
 
-	private int resolution = 256;
-	private float frequency = 6.0f;
-	private int octaves = 6;
-	private float lacunarity = 2.0f;
-	private float persistence = 0.75f;
-	private int dimensions = 2;
+	private NoiseMethodType type = NoiseMethodType.Value;
+	private int seed = 0;
 
-	public NoiseMethodType type;
-	[Range(-10000, 10000)]
-	public int seed = 0;
-	public int scale = 1;
+	public TextureCreator(){
+		regenerateSeed();
+	}
 
+	public TextureCreator(int seed){
+		setSeed(seed);
+	}
 
-	public Texture2D generateTerrainTexture(Transform parent){
-		resolution = 256;
-		frequency = 6.0f;
-		octaves = 6;
-		lacunarity = 2.0f;
-		persistence = 0.75f;
-		dimensions = 2;
+	/**
+	 *	Generate a new pseudorandom seed. Seeds change the resulting texture
+	 */
+	public void regenerateSeed(){
+		this.seed = Random.Range(-10000, 10000);
+	}
 
-		Texture2D texture = createtexture("Procedural terrain texture");
-		generateTexture(texture, parent);
+	/**
+	 *	Set the seed
+	 */
+	public void setSeed(int seed){
+		if(seed > -10000 && seed < 10000){
+			this.seed = seed;
+		}
+	}
+
+	/**
+	 *	Generate a new procedural texture
+	 */
+	public Texture2D generateTexture(Transform parent, TerrainTextureDataObject textureDescription){
+		Texture2D texture = createTextureContainer(textureDescription.name, textureDescription.resolution);
+		generateTexture(texture, parent, textureDescription);
 		return texture;
 	}
 
-	public Texture2D generateForestTexture(Transform parent){
-		resolution = 256;
-		frequency = 4.0f;
-		octaves = 32;
-		lacunarity = 10.0f;
-		persistence = 0.9f;
-		dimensions = 2;
 
-		Texture2D texture = createtexture("Procedural terrain texture");
-		generateTexture(texture, parent);
-		return texture;
-	}
-
-	private Texture2D createtexture(string textureName){
-		Texture2D texture = new Texture2D(resolution, resolution, TextureFormat.RGB24, true);
+	/**
+	 *	Create and configure a blank Texture2D object
+	 */
+	private Texture2D createTextureContainer(string textureName, int textureResolution){
+		Texture2D texture = new Texture2D(textureResolution, textureResolution, TextureFormat.RGB24, true);
 		texture.name = textureName;
 		texture.wrapMode = TextureWrapMode.Clamp;
 		texture.filterMode = FilterMode.Trilinear;
 		texture.anisoLevel = 9;
 		return texture;
 	}
-
 	
-	private void generateTexture(Texture2D texture, Transform parent) {
-		//seed = Random.Range(0, 100);
-		//Debug.Log(seed);
+	/**
+	 *	Generate a new procedural texture
+	 *  http://catlikecoding.com/unity/tutorials/noise/
+	 */
+	private void generateTexture(Texture2D texture, Transform parent, TerrainTextureDataObject args) {
+		int scale = args.scale;
+		int resolution = args.resolution;
 
 		Vector3 point00 = parent.TransformPoint(new Vector3(seed, seed));
 		Vector3 point10 = parent.TransformPoint(new Vector3(seed+scale, seed));
 		Vector3 point01 = parent.TransformPoint(new Vector3(seed, seed+scale));
 		Vector3 point11 = parent.TransformPoint(new Vector3(seed+scale, seed+scale));
 
-		NoiseMethod method = Noise.methods[(int)type][dimensions - 1];
+		NoiseMethod method = Noise.methods[(int)type][args.dimensions - 1];
 		float stepSize = 1.0f / resolution;
+
 		for (int y = 0; y < resolution; y++) {
+			
 			Vector3 point0 = Vector3.Lerp(point00, point01, (y + 0.5f) * stepSize);
 			Vector3 point1 = Vector3.Lerp(point10, point11, (y + 0.5f) * stepSize);
+			
 			for (int x = 0; x < resolution; x++) {
+				
 				Vector3 point = Vector3.Lerp(point0, point1, (x + 0.5f) * stepSize);
-				float sample = Noise.Sum(method, point, frequency, octaves, lacunarity, persistence);
+				float sample = Noise.Sum(method, point, args.frequency, args.octaves, args.lacunarity, args.persistence);
+				
 				if (type != NoiseMethodType.Value) {
 					sample = sample * 0.5f + 0.5f;
 				}
+				
 				texture.SetPixel(x, y, new Color(sample, sample, sample));
 			}
 		}
+
 		texture.Apply();
 	}
 }
-
-
-
-// using UnityEngine;
-
-// // http://catlikecoding.com/unity/tutorials/noise/
-// public class TextureCreator : MonoBehaviour {
-
-// 	// [Range(2, 512)]
-// 	// public int resolution = 256;
-	
-// 	// public float frequency = 6.0f;
-	
-// 	// [Range(1, 8)]
-// 	// public int octaves = 6;
-
-// 	// [Range(1f, 4f)]
-// 	// public float lacunarity = 2f;
-
-// 	// [Range(0f, 1f)]
-// 	// public float persistence = 0.75f;
-
-// 	// [Range(1, 3)]
-// 	// public int dimensions = 2;
-
-// 	public NoiseMethodType type;
-// 	public Texture2D texture;
-
-// 	private int resolution = 256;
-// 	private float frequency = 6.0f;
-// 	private int octaves = 6;
-// 	private float lacunarity = 2.0f;
-// 	private float persistence = 0.75f;
-// 	private int dimensions = 2;
-
-// 	[Range(-10000, 10000)]
-// 	public int seed = 0;
-// 	public int scale = 1;
-
-
-// 	public void createTexture () {
-// 		if (texture == null) {
-// 			texture = new Texture2D(resolution, resolution, TextureFormat.RGB24, true);
-// 			texture.name = "Procedural Texture";
-// 			texture.wrapMode = TextureWrapMode.Clamp;
-// 			texture.filterMode = FilterMode.Trilinear;
-// 			texture.anisoLevel = 9;
-// 		}
-// 		generateTexture();
-// 	}
-	
-// 	private void generateTexture () {
-// 		if (texture.width != resolution) {
-// 			texture.Resize(resolution, resolution);
-// 		}
-		
-// 		// Vector3 point00 = transform.TransformPoint(new Vector3(-0.5f,-0.5f));
-// 		// Vector3 point10 = transform.TransformPoint(new Vector3( 0.5f,-0.5f));
-// 		// Vector3 point01 = transform.TransformPoint(new Vector3(-0.5f, 0.5f));
-// 		// Vector3 point11 = transform.TransformPoint(new Vector3( 0.5f, 0.5f));
-
-// 		//int seed = Random.Range(-10000, 10000);
-// 		//int scale = 1;
-
-// 		Vector3 point00 = transform.TransformPoint(new Vector3(seed, seed));
-// 		Vector3 point10 = transform.TransformPoint(new Vector3(seed+scale, seed));
-// 		Vector3 point01 = transform.TransformPoint(new Vector3(seed, seed+scale));
-// 		Vector3 point11 = transform.TransformPoint(new Vector3(seed+scale, seed+scale));
-
-// 		NoiseMethod method = Noise.methods[(int)type][dimensions - 1];
-// 		float stepSize = 1f / resolution;
-// 		for (int y = 0; y < resolution; y++) {
-// 			Vector3 point0 = Vector3.Lerp(point00, point01, (y + 0.5f) * stepSize);
-// 			Vector3 point1 = Vector3.Lerp(point10, point11, (y + 0.5f) * stepSize);
-// 			for (int x = 0; x < resolution; x++) {
-// 				Vector3 point = Vector3.Lerp(point0, point1, (x + 0.5f) * stepSize);
-// 				float sample = Noise.Sum(method, point, frequency, octaves, lacunarity, persistence);
-// 				if (type != NoiseMethodType.Value) {
-// 					sample = sample * 0.5f + 0.5f;
-// 				}
-
-// 				texture.SetPixel(x, y, new Color(sample, sample, sample));
-// 			}
-// 		}
-// 		texture.Apply();
-// 	}
-// }
