@@ -2,10 +2,9 @@
 using System.Collections;
 
 [System.Serializable]
-public class TileForestryType {
+public class TileForestry : Loadable<TileForestry> {
 
 	public string name = "";
-	public float min = 0;
-	public float max = 0;
+	public SerializableRange range;
 
 }

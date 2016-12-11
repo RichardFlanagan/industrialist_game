@@ -5,8 +5,8 @@ using System.Collections;
 public class JSONLoader {
 	
 	public TextureParameters[] textureParameters;
-	public TileHeightType[] tileHeightTypes;
-	public TileForestryType[] tileForestryTypes;
+	public TileTerrain[] tileTerrainTypes;
+	public TileForestry[] tileForestryTypes;
 
 	public static JSONLoader fromJSON(string path){
 		TextAsset asset = Resources.Load(path) as TextAsset;

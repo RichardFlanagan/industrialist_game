@@ -9,12 +9,12 @@ public class Map : MonoBehaviour {
 	public GameObject[] tiles;
 	
 	public Texture2D heightTexture;
-	public Texture2D climateTexture;
-	public Texture2D humidityTexture;
-	public Texture2D forestTexture;
+	//public Texture2D forestTexture;
 	
 	private float tileWidth;
 	private float tileHeight;
+
+	private JSONLoader dataFiles;
 
 	void Start () {
 		// Create a new array
@@ -44,13 +44,11 @@ public class Map : MonoBehaviour {
 
 		
 		// Load data files
-        JSONLoader jsl = JSONLoader.fromJSON("Data/terrain_texture_parameters");
-		TextureParameters heightTextureDescription = jsl.textureParameters[0];
-        TextureParameters forestTextureDescription = jsl.textureParameters[1];
+        dataFiles = JSONLoader.fromJSON("Data/terrain_texture_parameters");
 
         // Generate the texture that will be used for the terrain height, climate, humidity and forest cover
-		heightTexture = new TextureCreator().generateTexture(this.transform, heightTextureDescription);
-		forestTexture = new TextureCreator().generateTexture(this.transform, forestTextureDescription);
+		heightTexture = new TextureCreator().generateTexture(this.transform, dataFiles.textureParameters[0]);
+		//forestTexture = new TextureCreator().generateTexture(this.transform, dataFiles.textureParameters[1]);
 
 		tileWidth = tilePrefab.GetComponent<SpriteRenderer>().bounds.size.x;
 		tileHeight = tilePrefab.GetComponent<SpriteRenderer>().bounds.size.y;
@@ -88,39 +86,21 @@ public class Map : MonoBehaviour {
 	}
 
 	void createTile(int i, int j, Vector2 pos){
-		// Tile
-		GameObject tile = (GameObject) Instantiate(tilePrefab, pos, Quaternion.identity);
-		tile.transform.parent = this.gameObject.transform;
+		GameObject tileGameObject = (GameObject) Instantiate(tilePrefab, pos, Quaternion.identity);
+		tileGameObject.transform.parent = this.gameObject.transform;
 		
-		MapTile mapTile = tile.GetComponent<MapTile>();
-		mapTile.id = (i*mapWidth+j);
+		Tile tile = tileGameObject.GetComponent<Tile>();
+		tile.setId(i*mapWidth+j);
 
 		float terrainPixel = heightTexture.GetPixel(i, j).r;
-		float forestPixel = forestTexture.GetPixel(i, j).r;
-		MapTileTerrain terrain = new MapTileTerrain(terrainPixel, forestPixel);
-		mapTile.setTerrain(terrain);
-		
-		// Terrain
-		// TileTerrains.TileTerrain terrain;
-		// terrain = TileTerrains.getTerrain(terrainTexture.GetPixel(i, j).r);
-		// mapTile.setTerrain(terrain);
+		for(int n=0; n < dataFiles.tileTerrainTypes.Length; n++){
+			TileTerrain item = dataFiles.tileTerrainTypes[n];
+			if( (item.range.min <= terrainPixel) && (item.range.max > terrainPixel) ){
+				tile.setTerrain(ref item);
+			}
+		}
 
-		// Resources
-		// TileResources.TileResource resource;
-		// resource = TileResources.getResource(terrain, forestTexture.GetPixel(i, j).r);
-		// mapTile.setResource(resource);
-
-		tiles[mapTile.id] = tile;
-	}
-
-
-	public void findTile(Vector2 pos){
-		int index = (int) (pos.y / tileHeight) * 10 + (int) (pos.x / tileWidth);
-		tiles[index].GetComponent<MapTile>().click();
-
-		Vector3 pz = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-		pz.z = 0;
-		Debug.Log(pz);
+		tiles[tile.getId()] = tileGameObject;
 	}
 
 }

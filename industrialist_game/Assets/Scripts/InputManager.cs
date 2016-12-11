@@ -15,17 +15,11 @@ public class InputManager : MonoBehaviour {
 
 			if (hit.collider != null) {
 				GameObject obj = hit.collider.gameObject;
-				MapTile mapTile = obj.GetComponent<MapTile>();
-				if(mapTile != null){
-					mapTile.click();
+				Tile tile = obj.GetComponent<Tile>();
+				if(tile != null){
+					tile.click();
 				}
 			}
 		}
-
-		// if(Input.GetMouseButtonDown(0)){
-		// 	Vector2 mousePos = Input.mousePosition;
-		// 	Debug.Log("click"+mousePos);
-		// 	//GameObject.Find("Map").GetComponent<Map>().findTile(mousePos);
-		// }
 	}
 }

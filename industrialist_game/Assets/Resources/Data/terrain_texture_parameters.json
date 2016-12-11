@@ -24,9 +24,14 @@
         }
     ],
 
-    "tileHeightTypes":[
+    "tileTerrainTypes":[
         {
             "name":"Water",
+            "color":{
+                "r":0.12, 
+                "g":0.44, 
+                "b":1.0
+            },
             "range":{
                 "min":-0.1,
                 "max":0.5
@@ -34,6 +39,11 @@
         },
         {
             "name":"Flatland",
+            "color":{
+                "r":0.2, 
+                "g":0.8, 
+                "b":0.2
+            },
             "range":{
                 "min":0.5,
                 "max":0.6
@@ -41,6 +51,11 @@
         },
         {
             "name":"Hills",
+            "color":{
+                "r":0.68, 
+                "g":1.0, 
+                "b":0.18
+            },
             "range":{
                 "min":0.6,
                 "max":0.65
@@ -48,6 +63,11 @@
         },
         {
             "name":"Mountain",
+            "color":{
+                "r":0.5, 
+                "g":0.5, 
+                "b":0.5
+            },
             "range":{
                 "min":0.65,
                 "max":1.1
