@@ -19,9 +19,9 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000013469216496}
-  - 114: {fileID: 114000011576280352}
   - 212: {fileID: 212000012551910764}
   - 60: {fileID: 60000012661122334}
+  - 114: {fileID: 114000011029188188}
   m_Layer: 0
   m_Name: MapTile
   m_TagString: Untagged
@@ -64,7 +64,7 @@ PolygonCollider2D:
       - {x: 0.64, y: -0.34}
       - {x: 0.64, y: 0.35}
       - {x: 0.12, y: 0.64}
---- !u!114 &114000011576280352
+--- !u!114 &114000011029188188
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -72,10 +72,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1000012930102844}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7805cba0729b3d444a18b27983d8e43d, type: 3}
+  m_Script: {fileID: 11500000, guid: 40cf0347d85fc3e42bb7c03e2c4cc3ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 0
 --- !u!212 &212000012551910764
 SpriteRenderer:
   m_ObjectHideFlags: 1

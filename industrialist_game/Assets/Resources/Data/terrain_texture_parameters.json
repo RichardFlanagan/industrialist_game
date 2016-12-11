@@ -35,7 +35,8 @@
             "range":{
                 "min":-0.1,
                 "max":0.5
-            }
+            },
+            "forestryFactor":-1
         },
         {
             "name":"Flatland",
@@ -47,7 +48,8 @@
             "range":{
                 "min":0.5,
                 "max":0.6
-            }
+            },
+            "forestryFactor":1
         },
         {
             "name":"Hills",
@@ -59,7 +61,8 @@
             "range":{
                 "min":0.6,
                 "max":0.65
-            }
+            },
+            "forestryFactor":0.7
         },
         {
             "name":"Mountain",
@@ -71,36 +74,69 @@
             "range":{
                 "min":0.65,
                 "max":1.1
-            }
+            },
+            "forestryFactor":0.4
         }
     ],
 
     "tileForestryTypes":[
         {
-            "name":"None",
+            "name":"Water",
+            "color":{
+                "r":0.12, 
+                "g":0.44, 
+                "b":1.0
+            },
             "range":{
-                "min":-0.1,
+                "min":-1.0,
+                "max":0
+            }
+        },
+        {
+            "name":"None",
+            "color":{
+                "r":0.6, 
+                "g":0.6, 
+                "b":0.6
+            },
+            "range":{
+                "min":0,
+                "max":0.3
+            }
+        },
+        {
+            "name":"Sparse",
+            "color":{
+                "r":0.7, 
+                "g":1.0, 
+                "b":0.2
+            },
+            "range":{
+                "min":0.3,
                 "max":0.5
             }
         },
         {
-            "name":"None",
+            "name":"Average",
+            "color":{
+                "r":0.6, 
+                "g":0.8, 
+                "b":0.2
+            },
             "range":{
                 "min":0.5,
-                "max":0.6
+                "max":0.8
             }
         },
         {
-            "name":"None",
+            "name":"Dense",
+            "color":{
+                "r":0.5, 
+                "g":0.6, 
+                "b":0.2
+            },
             "range":{
-                "min":0.6,
-                "max":0.65
-            }
-        },
-        {
-            "name":"None",
-            "range":{
-                "min":0.65,
+                "min":0.8,
                 "max":1.1
             }
         }

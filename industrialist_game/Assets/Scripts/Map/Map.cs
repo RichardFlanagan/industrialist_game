@@ -8,8 +8,8 @@ public class Map : MonoBehaviour {
 	public int mapHeight = 96;
 	public GameObject[] tiles;
 	
-	public Texture2D heightTexture;
-	//public Texture2D forestTexture;
+	public Texture2D terrainTexture;
+	public Texture2D forestTexture;
 	
 	private float tileWidth;
 	private float tileHeight;
@@ -19,39 +19,15 @@ public class Map : MonoBehaviour {
 	void Start () {
 		// Create a new array
 		tiles = new GameObject[mapWidth*mapHeight];
+		tileWidth = tilePrefab.GetComponent<SpriteRenderer>().bounds.size.x;
+		tileHeight = tilePrefab.GetComponent<SpriteRenderer>().bounds.size.y;
 
-		/*
-			Tile
-
-			Height/type: flat, hill, mountain, water
-			Tree: dense, medium, light
-			Natural Resources: 
-				Mineable: iron, coal
-				Pumpable: oil, gas
-				Surface?: game, horse
-			Building/Complex:
-				Mine: surface mine, primitive shaft mine, industial shaft maine, strip mine
-				Forestry:
-				Urban: village, agricultural hamlet, low/med/high density urban
-				Commercial?: bank, megamall
-				Industrial: brickmaker, cokefilds, industial park
-				Military: barracks, citadel, castle
-				Special: Palace, parliament
-			Transport: none, beaten path, paved path, rail
-			Fortification: none, palislade, stone wall, trench, fortification line
-
-		*/
-
-		
 		// Load data files
         dataFiles = JSONLoader.fromJSON("Data/terrain_texture_parameters");
 
         // Generate the texture that will be used for the terrain height, climate, humidity and forest cover
-		heightTexture = new TextureCreator().generateTexture(this.transform, dataFiles.textureParameters[0]);
-		//forestTexture = new TextureCreator().generateTexture(this.transform, dataFiles.textureParameters[1]);
-
-		tileWidth = tilePrefab.GetComponent<SpriteRenderer>().bounds.size.x;
-		tileHeight = tilePrefab.GetComponent<SpriteRenderer>().bounds.size.y;
+		terrainTexture = new TextureCreator().generateTexture(this.transform, dataFiles.textureParameters[0]);
+		forestTexture = new TextureCreator().generateTexture(this.transform, dataFiles.textureParameters[1]);
 
 		generateGrid();
 	}
@@ -92,11 +68,26 @@ public class Map : MonoBehaviour {
 		Tile tile = tileGameObject.GetComponent<Tile>();
 		tile.setId(i*mapWidth+j);
 
-		float terrainPixel = heightTexture.GetPixel(i, j).r;
+		// Terrain
+		float terrainPixel = terrainTexture.GetPixel(i, j).r;
+
 		for(int n=0; n < dataFiles.tileTerrainTypes.Length; n++){
 			TileTerrain item = dataFiles.tileTerrainTypes[n];
 			if( (item.range.min <= terrainPixel) && (item.range.max > terrainPixel) ){
 				tile.setTerrain(ref item);
+				break;
+			}
+		}
+
+		// Forestry
+		float forestryPixel = forestTexture.GetPixel(i, j).r;
+		forestryPixel = forestryPixel * tile.getTerrain().forestryFactor;
+
+		for(int n=0; n < dataFiles.tileForestryTypes.Length; n++){
+			TileForestry item = dataFiles.tileForestryTypes[n];
+			if( (item.range.min <= forestryPixel) && (item.range.max > forestryPixel) ){
+				tile.setForestry(ref item);
+				break;
 			}
 		}
 

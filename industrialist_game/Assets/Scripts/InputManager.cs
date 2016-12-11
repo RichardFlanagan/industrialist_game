@@ -1,6 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+public enum DisplayMode {
+	Terrain, Forestry
+};
+
 public class InputManager : MonoBehaviour {
 
 	void Start () {}
@@ -19,6 +23,25 @@ public class InputManager : MonoBehaviour {
 				if(tile != null){
 					tile.click();
 				}
+			}
+		}
+
+
+
+		if(Input.GetKey("1")){
+			GameObject[] tiles = GameObject.Find("Map").GetComponent<Map>().tiles;
+			foreach(GameObject go in tiles){
+				Tile tile = go.GetComponent<Tile>();
+				tile.setDisplayMode(DisplayMode.Terrain);
+			}
+
+			//Tile t = GameObject.Find("Map").GetComponent<Map>().tiles[0].GetComponent<Tile>();
+			//t.setDisplayMode(DisplayMode.Terrain);
+		} else if(Input.GetKey("2")){
+			GameObject[] tiles = GameObject.Find("Map").GetComponent<Map>().tiles;
+			foreach(GameObject go in tiles){
+				Tile tile = go.GetComponent<Tile>();
+				tile.setDisplayMode(DisplayMode.Forestry);
 			}
 		}
 	}
