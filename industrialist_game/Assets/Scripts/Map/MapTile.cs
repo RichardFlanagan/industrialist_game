@@ -15,13 +15,6 @@ public class MapTile : MonoBehaviour {
 	
 	void Update () {}
 
-	// public void click(){
-	// 	print("ID: " + id);
-	// 	print("Terrain: " + terrain.name);
-	// 	print("Resource: " + resource.name);
-	// 	print("Position: " + gameObject.transform.position);
-	// }
-
 	// public void setTerrain(TileTerrains.TileTerrain terrain){
 	// 	this.terrain = terrain;
 	// 	this.GetComponent<SpriteRenderer>().color = terrain.color;

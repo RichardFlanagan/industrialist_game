@@ -20,16 +20,35 @@ public class Map : MonoBehaviour {
 		// Create a new array
 		tiles = new GameObject[mapWidth*mapHeight];
 
-		// Generate the texture that will be used for the terrain height, climate, humidity and forest cover
-		// heightTexture = new TextureCreator().generateTerrainTexture(this.transform);
-		// climateTexture = new TextureCreator().generateForestTexture(this.transform);
-		// humidityTexture = new TextureCreator().generateForestTexture(this.transform);
-		// forestTexture = new TextureCreator().generateForestTexture(this.transform);
+		/*
+			Tile
 
+			Height/type: flat, hill, mountain, water
+			Tree: dense, medium, light
+			Natural Resources: 
+				Mineable: iron, coal
+				Pumpable: oil, gas
+				Surface?: game, horse
+			Building/Complex:
+				Mine: surface mine, primitive shaft mine, industial shaft maine, strip mine
+				Forestry:
+				Urban: village, agricultural hamlet, low/med/high density urban
+				Commercial?: bank, megamall
+				Industrial: brickmaker, cokefilds, industial park
+				Military: barracks, citadel, castle
+				Special: Palace, parliament
+			Transport: none, beaten path, paved path, rail
+			Fortification: none, palislade, stone wall, trench, fortification line
+
+		*/
+
+		
+		// Load data files
         JSONLoader jsl = JSONLoader.fromJSON("Data/terrain_texture_parameters");
-		TerrainTextureDataObject heightTextureDescription = jsl.terrainTextureParameters[0];
-        TerrainTextureDataObject forestTextureDescription = jsl.terrainTextureParameters[1];
-        
+		TextureParameters heightTextureDescription = jsl.textureParameters[0];
+        TextureParameters forestTextureDescription = jsl.textureParameters[1];
+
+        // Generate the texture that will be used for the terrain height, climate, humidity and forest cover
 		heightTexture = new TextureCreator().generateTexture(this.transform, heightTextureDescription);
 		forestTexture = new TextureCreator().generateTexture(this.transform, forestTextureDescription);
 

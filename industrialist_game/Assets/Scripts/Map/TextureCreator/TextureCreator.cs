@@ -32,7 +32,7 @@ public class TextureCreator {
 	/**
 	 *	Generate a new procedural texture
 	 */
-	public Texture2D generateTexture(Transform parent, TerrainTextureDataObject textureDescription){
+	public Texture2D generateTexture(Transform parent, TextureParameters textureDescription){
 		Texture2D texture = createTextureContainer(textureDescription.name, textureDescription.resolution);
 		generateTexture(texture, parent, textureDescription);
 		return texture;
@@ -55,7 +55,7 @@ public class TextureCreator {
 	 *	Generate a new procedural texture
 	 *  http://catlikecoding.com/unity/tutorials/noise/
 	 */
-	private void generateTexture(Texture2D texture, Transform parent, TerrainTextureDataObject args) {
+	private void generateTexture(Texture2D texture, Transform parent, TextureParameters args) {
 		int scale = args.scale;
 		int resolution = args.resolution;
 

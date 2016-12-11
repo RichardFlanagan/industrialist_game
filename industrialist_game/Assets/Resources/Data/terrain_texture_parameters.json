@@ -1,5 +1,5 @@
 {
-    "terrainTextureParameters":[
+    "textureParameters":[
         {  
             "name":"terrain height texture",
             "type":"Value",
@@ -21,6 +21,68 @@
             "persistence":0.9,
             "dimensions":2,
             "scale":1
+        }
+    ],
+
+    "tileHeightTypes":[
+        {
+            "name":"Water",
+            "range":{
+                "min":-0.1,
+                "max":0.5
+            }
+        },
+        {
+            "name":"Flatland",
+            "range":{
+                "min":0.5,
+                "max":0.6
+            }
+        },
+        {
+            "name":"Hills",
+            "range":{
+                "min":0.6,
+                "max":0.65
+            }
+        },
+        {
+            "name":"Mountain",
+            "range":{
+                "min":0.65,
+                "max":1.1
+            }
+        }
+    ],
+
+    "tileForestryTypes":[
+        {
+            "name":"None",
+            "range":{
+                "min":-0.1,
+                "max":0.5
+            }
+        },
+        {
+            "name":"None",
+            "range":{
+                "min":0.5,
+                "max":0.6
+            }
+        },
+        {
+            "name":"None",
+            "range":{
+                "min":0.6,
+                "max":0.65
+            }
+        },
+        {
+            "name":"None",
+            "range":{
+                "min":0.65,
+                "max":1.1
+            }
         }
     ]
 }
