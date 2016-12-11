@@ -1,6 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+public enum DisplayMode {
+	Terrain, Forestry
+};
+
 public class Map : MonoBehaviour {
 
 	public GameObject tilePrefab;
@@ -75,6 +79,7 @@ public class Map : MonoBehaviour {
 			TileTerrain item = dataFiles.tileTerrainTypes[n];
 			if( (item.range.min <= terrainPixel) && (item.range.max > terrainPixel) ){
 				tile.setTerrain(ref item);
+				tile.setDisplayMode(DisplayMode.Terrain);
 				break;
 			}
 		}
@@ -92,6 +97,20 @@ public class Map : MonoBehaviour {
 		}
 
 		tiles[tile.getId()] = tileGameObject;
+	}
+
+	public void setMapmode(string mode){
+		if(mode == "Terrain"){
+			foreach(GameObject go in tiles){
+				Tile tile = go.GetComponent<Tile>();
+				tile.setDisplayMode(DisplayMode.Terrain);
+			}
+		} else if(mode == "Forestry"){
+			foreach(GameObject go in tiles){
+				Tile tile = go.GetComponent<Tile>();
+				tile.setDisplayMode(DisplayMode.Forestry);
+			}
+		}
 	}
 
 }

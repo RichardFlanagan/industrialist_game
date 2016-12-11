@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.EventSystems;
 
 /*
 	Tile
@@ -23,15 +24,26 @@ using System.Collections;
 
 */
 
-public class Tile : MonoBehaviour {
+public class Tile : MonoBehaviour, IPointerClickHandler {
 
 	private int id = 0;
 	private TileTerrain terrain;
 	private TileForestry forestry;
+	private bool selected = false;
 
 	Tile(){}
 
-	public void click(){
+	// public void click(){
+	// 	Debug.Log(
+	// 		"ID: " + id +
+	// 		"\n" + forestry.name + "ly Forested " + terrain.name + 
+	// 		"\nTerrain: " + terrain.name +
+	// 		"\nForestry: " + forestry.name +
+	// 		"\nPosition: " + gameObject.transform.position
+	// 	);
+	// }
+
+	public void OnPointerClick(PointerEventData eventData){
 		Debug.Log(
 			"ID: " + id +
 			"\n" + forestry.name + "ly Forested " + terrain.name + 
@@ -57,12 +69,16 @@ public class Tile : MonoBehaviour {
 		if(mode == DisplayMode.Terrain){
 			this.GetComponent<SpriteRenderer>().color = terrain.color.getColor();
 		} else if(mode == DisplayMode.Forestry){
-			//if(terrain.name == "Water"){
-			//	this.GetComponent<SpriteRenderer>().color = terrain.color.getColor();
-			//} else{
-				this.GetComponent<SpriteRenderer>().color = forestry.color.getColor();
-			//}
+			this.GetComponent<SpriteRenderer>().color = forestry.color.getColor();
 		}
+	}
+
+	public void setSelected(bool selected = true){
+		this.selected = selected;
+	}
+
+	public bool isSelected(){
+		return selected;
 	}
 
 	public int getId(){ return id; }
