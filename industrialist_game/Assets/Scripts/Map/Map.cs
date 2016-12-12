@@ -2,7 +2,7 @@
 using System.Collections;
 
 public enum DisplayMode {
-	Terrain, Forestry
+	Terrain, Forestry, District
 };
 
 public class Map : MonoBehaviour {
@@ -100,16 +100,19 @@ public class Map : MonoBehaviour {
 	}
 
 	public void setMapmode(string mode){
+		DisplayMode dm = DisplayMode.District;
+
 		if(mode == "Terrain"){
-			foreach(GameObject go in tiles){
-				Tile tile = go.GetComponent<Tile>();
-				tile.setDisplayMode(DisplayMode.Terrain);
-			}
+			dm = DisplayMode.Terrain;
 		} else if(mode == "Forestry"){
-			foreach(GameObject go in tiles){
-				Tile tile = go.GetComponent<Tile>();
-				tile.setDisplayMode(DisplayMode.Forestry);
-			}
+			dm = DisplayMode.Forestry;
+		} else if(mode == "District"){
+			dm = DisplayMode.District;
+		}
+
+		foreach(GameObject go in tiles){
+			Tile tile = go.GetComponent<Tile>();
+			tile.setDisplayMode(dm);
 		}
 	}
 
